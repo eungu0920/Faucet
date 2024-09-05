@@ -24,7 +24,7 @@ contract Faucet is Ownable {
     /// @notice Requests a specific token from the faucet
     /// @param _token The token to request
     function requestToken(IERC20 _token) external returns (bool) {
-        require(tokenAmounts[_token] == 0, "Token is not supported by faucet");
+        require(tokenAmounts[_token] != 0, "Token is not supported by faucet");
         require(_token.balanceOf(address(this)) >= tokenAmounts[_token], "Not enough balance in faucet");
         // uint256 lastRequest = lastTokenRequestTime[msg.sender][_token];
         require(block.timestamp >= lastTokenRequestTime[msg.sender][_token] + timeLimit, "Time limit has not passed");
@@ -46,10 +46,12 @@ contract Faucet is Ownable {
 
         bool tokenExists = false;
 
-        for (uint8 i = 0; i < tokens.length; i++) {
-            if (tokens[i] == _token) {
+        if ( tokens.length != 0 ) {
+            for (uint8 i = 0; i < tokens.length; i++) {
+                if (tokens[i] == _token) {
                 tokenExists = true;
                 break;
+                }
             }
         }
 
