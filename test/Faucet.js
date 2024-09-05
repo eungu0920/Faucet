@@ -78,7 +78,7 @@ describe("Faucet", function () {
 
     describe("Request Token", function () {
         it("Should request rigth amount token", async function () {
-            const { faucet, owner, otherAccount, ton, tos, usdc, usdt } = await loadFixture(deployFaucetFixture);
+            const { faucet, otherAccount, ton, tos, usdc, usdt } = await loadFixture(deployFaucetFixture);
             const tonAmount = ethers.parseUnits("12", 20);
             const amount = ethers.parseUnits("1", 20);
             
@@ -93,10 +93,22 @@ describe("Faucet", function () {
 
             await faucet.connect(otherAccount).requestToken(usdt.target);
             expect(await usdt.balanceOf(otherAccount.address)).to.equal(amount);
-        })
+        });
+
+        it("Should fail if not passed timeLimit", async function () {
+            const { faucet, otherAccount, ton, tos, usdc, usdt } = await loadFixture(deployFaucetFixture);
+            const tonAmount = ethers.parseUnits("12", 20);
+            const amount = ethers.parseUnits("1", 20);
+            
+            await faucet.connect(otherAccount).requestToken(ton.target);
+            expect(await ton.balanceOf(otherAccount.address)).to.equal(tonAmount);
+
+            await expect(faucet.connect(otherAccount).requestToken(ton.target)).to.be.revertedWith(
+                "Time limit has not passed"
+            );
+        });
     });
     
-
     describe("Transfer Ownership", function () {
         it("Should transfer onwership to other account", async function () {
             const { faucet, owner, otherAccount } = await loadFixture(deployFaucetFixture);
