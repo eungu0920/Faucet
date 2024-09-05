@@ -16,4 +16,3 @@ The contract also supports administrative functions for the owner.
 The contract is deployed on the Titan Sepolia network at
 
 ## Getting Started with Project
-
