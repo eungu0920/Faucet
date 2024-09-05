@@ -15,5 +15,14 @@ The contract also supports administrative functions for the owner.
 ### Titan Sepolia
 The contract is deployed on the Titan Sepolia network at
 
-## Getting Started with Project
+## Usage
+
+### Run `locally`
+
+Compile the contracts and run the tests:
+```shell
+    npm install --save-dev hardhat
+    npx hardhat compile
+    npx hardhat test
+```
 
