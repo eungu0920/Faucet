@@ -19,9 +19,14 @@ The contract is deployed on the Titan Sepolia network at
 
 ### Run `locally`
 
+Clone this repository and install hardhat
+```shell
+    git clone https://github.com/eungu0920/Faucet.git
+    npm install --sava-dev hardhat
+```
+
 Compile the contracts and run the tests:
 ```shell
-    npm install --save-dev hardhat
     npx hardhat compile
     npx hardhat test
 ```
