@@ -59,6 +59,7 @@ contract Faucet is Ownable {
     }
 
     function setTimeLimit(uint256 _timeLimit) external onlyOwner {
+        require(_timeLimit != 0, "The timeLimit shouldn't be zero");
         timeLimit = _timeLimit;
     }
 

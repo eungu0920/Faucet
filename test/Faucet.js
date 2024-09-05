@@ -38,8 +38,6 @@ describe("Faucet", function () {
         it("Should set the right timeLimit", async function () {
             const { faucet, timeLimit } = await loadFixture(deployFaucetFixture);
 
-            console.log(" faucet address >> ", faucet.target);
-
             expect(await faucet.timeLimit()).to.equal(timeLimit);
         });
 
