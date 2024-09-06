@@ -9,11 +9,14 @@ import "@openzeppelin/contracts/token/ERC20/utils/SafeERC20.sol";
 contract Faucet is Ownable {
     using SafeERC20 for IERC20;
     uint256 public timeLimit;
-    IERC20[] public tokens;
 
     mapping(IERC20 => uint256) public tokenAmounts;
     mapping(address => mapping(IERC20 => uint256)) public lastTokenRequestTime;
 
+    /// @notice Emitted when a withdrawal request is made
+    /// @param _to The address to which the tokens are sent
+    /// @param _token The token that is being withdrawn
+    /// @param _amount The amount of tokens withdrawn
     event WithdrawalRequest(address indexed _to, IERC20 indexed _token, uint256 indexed _amount);
 
     constructor(uint256 _timeLimit) Ownable(msg.sender) {
@@ -38,54 +41,30 @@ contract Faucet is Ownable {
     }
 
     /// @notice Sets the withdrawal amount for a specific token
-    /// 배열에 넣는 이유는 나중에 한꺼번에 출금하기 위함
     /// @param _token The token to set the amount for
     /// @param _amount The new withdrawal amount
     function setTokenAmount(IERC20 _token, uint256 _amount) external onlyOwner {
         tokenAmounts[_token] = _amount;
-
-        bool tokenExists = false;
-
-        if ( tokens.length != 0 ) {
-            for (uint8 i = 0; i < tokens.length; i++) {
-                if (tokens[i] == _token) {
-                tokenExists = true;
-                break;
-                }
-            }
-        }
-
-        if (!tokenExists) {
-            tokens.push(_token);
-        }
     }
 
+    /// @notice Sets the time limit between requests
+    /// @param _timeLimit The new time limit
     function setTimeLimit(uint256 _timeLimit) external onlyOwner {
         require(_timeLimit != 0, "The timeLimit shouldn't be zero");
         timeLimit = _timeLimit;
     }
 
-    function withdrawalAll() external onlyOwner {
-        if (address(this).balance > 0) {
-            payable(owner()).transfer(address(this).balance);
-        }
-
-        for (uint8 i = 0; i < tokens.length; i++) {
-            _withdrawToken(tokens[i]);
-        }
-    }
-
-    function transferOwnership(address newOwner) public override onlyOwner {
-        require(newOwner != address(0), "New owner can't be zero address");
-        super.transferOwnership(newOwner);
-    }
-
-    function _withdrawToken(IERC20 _token) internal {
+    /// @notice Withdraws token from faucet
+    function withdrawToken(IERC20 _token) external {
         uint256 balance = _token.balanceOf(address(this));
+        
+        require(balance > 0, "Not enough balance in faucet");
 
-        if (balance > 0) {
-            _token.safeTransfer(owner(), balance);
-        }
+        _token.safeTransfer(owner(), balance);
     }
 
+    /// @notice Fallback function to handle Ether deposits
+    receive() external payable {
+        revert("Ether deposits not allowed");
+    }
 }

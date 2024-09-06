@@ -95,7 +95,7 @@ describe("Faucet", function () {
             expect(await usdt.balanceOf(otherAccount.address)).to.equal(amount);
         });
 
-        it("Should fail if not passed timeLimit", async function () {
+        it("Should fail if not passed timeLimit when request token", async function () {
             const { faucet, otherAccount, ton, tos, usdc, usdt } = await loadFixture(deployFaucetFixture);
             const tonAmount = ethers.parseUnits("12", 20);
             const amount = ethers.parseUnits("1", 20);
@@ -121,9 +121,7 @@ describe("Faucet", function () {
         it("Should fail if the other account address is zero", async function () {            
             const { faucet, owner } = await loadFixture(deployFaucetFixture);
 
-            await expect(faucet.transferOwnership(ethers.ZeroAddress)).to.be.revertedWith(
-                "New owner can't be zero address"
-            );
+            await expect(faucet.transferOwnership(ethers.ZeroAddress)).to.be.reverted;
         });
     });
 });
