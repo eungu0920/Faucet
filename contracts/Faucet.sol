@@ -55,7 +55,7 @@ contract Faucet is Ownable {
     }
 
     /// @notice Withdraws token from faucet
-    function withdrawToken(IERC20 _token) external {
+    function withdrawToken(IERC20 _token) external onlyOwner {
         uint256 balance = _token.balanceOf(address(this));
         
         require(balance > 0, "Not enough balance in faucet");
