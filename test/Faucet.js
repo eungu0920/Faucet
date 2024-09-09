@@ -4,6 +4,7 @@ const {
 } = require("@nomicfoundation/hardhat-toolbox/network-helpers");
 const { anyValue } = require("@nomicfoundation/hardhat-chai-matchers/withArgs");
 const { expect } = require("chai");
+const { any } = require("hardhat/internal/core/params/argumentTypes");
 
 describe("Faucet", function () {
     async function deployFaucetFixture() {
@@ -57,7 +58,7 @@ describe("Faucet", function () {
         it("Should fail if the timeLimit is zero", async function () {
             const zeroTimeLimit = 0;
             const Faucet = await ethers.getContractFactory("Faucet");
-            await expect(Faucet.deploy(zeroTimeLimit)).to.be.reverted;
+            await expect(Faucet.deploy(zeroTimeLimit)).to.be.revertedWithCustomError(Faucet, "TimeLimitCantBeZero");
         });
     });
 
@@ -101,7 +102,9 @@ describe("Faucet", function () {
             await faucet.connect(otherAccount).requestToken(ton.target);
             expect(await ton.balanceOf(otherAccount.address)).to.equal(tonAmount);
 
-            await expect(faucet.connect(otherAccount).requestToken(ton.target)).to.be.reverted;
+            await expect(faucet.connect(otherAccount).requestToken(ton.target))
+                .to.be.revertedWithCustomError(faucet, "TimeLimitHasNotPassed")
+                .withArgs(anyValue, anyValue);
         });
     });
     
