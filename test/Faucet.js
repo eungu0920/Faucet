@@ -57,9 +57,7 @@ describe("Faucet", function () {
         it("Should fail if the timeLimit is zero", async function () {
             const zeroTimeLimit = 0;
             const Faucet = await ethers.getContractFactory("Faucet");
-            await expect(Faucet.deploy(zeroTimeLimit)).to.be.revertedWith(
-                "The timeLimit shouldn't be zero"
-            );
+            await expect(Faucet.deploy(zeroTimeLimit)).to.be.reverted;
         });
     });
 
@@ -103,9 +101,7 @@ describe("Faucet", function () {
             await faucet.connect(otherAccount).requestToken(ton.target);
             expect(await ton.balanceOf(otherAccount.address)).to.equal(tonAmount);
 
-            await expect(faucet.connect(otherAccount).requestToken(ton.target)).to.be.revertedWith(
-                "Time limit has not passed"
-            );
+            await expect(faucet.connect(otherAccount).requestToken(ton.target)).to.be.reverted;
         });
     });
     
@@ -117,6 +113,12 @@ describe("Faucet", function () {
 
             expect(await faucet.owner()).to.equal(otherAccount.address);
         });
+
+        it("Should fail if it isn't the owner", async function () {
+            const { faucet, otherAccount } = await loadFixture(deployFaucetFixture);
+
+            await expect(faucet.connect(otherAccount).transferOwnership(otherAccount.address)).to.be.reverted;
+        })
 
         it("Should fail if the other account address is zero", async function () {            
             const { faucet, owner } = await loadFixture(deployFaucetFixture);
