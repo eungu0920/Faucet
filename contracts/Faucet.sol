@@ -10,7 +10,7 @@ error TimeLimitCantBeZero();
 /// @notice Insufficient balance for transfer in faucet
 /// @param available available balance in faucet
 /// @param required required amount to transfer
-error InsufficientBallanceInFaucet(uint256 available, uint256 required);
+error InsufficientBalanceInFaucet(uint256 available, uint256 required);
 
 /// @notice Unsupported Token in faucet
 error UnsupportedToken();
@@ -49,7 +49,7 @@ contract Faucet is Ownable {
         require(tokenAmounts[_token] != 0, UnsupportedToken());
         require(
             _token.balanceOf(address(this)) >= tokenAmounts[_token],
-            InsufficientBallanceInFaucet(_token.balanceOf(address(this)), tokenAmounts[_token])
+            InsufficientBalanceInFaucet(_token.balanceOf(address(this)), tokenAmounts[_token])
         );
         require(
             block.timestamp >= lastTokenRequestTime[msg.sender][_token] + timeLimit,
@@ -82,7 +82,7 @@ contract Faucet is Ownable {
     function withdrawToken(IERC20 _token) external onlyOwner {
         uint256 balance = _token.balanceOf(address(this));
         
-        require(balance > 0, InsufficientBallanceInFaucet(balance, 1));
+        require(balance > 0, InsufficientBalanceInFaucet(balance, 1));
 
         _token.safeTransfer(owner(), balance);
     }
