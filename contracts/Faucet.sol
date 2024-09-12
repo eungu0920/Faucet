@@ -7,6 +7,11 @@ import "@openzeppelin/contracts/token/ERC20/utils/SafeERC20.sol";
 /// @notice The timelimit shouldn't be zero
 error TimeLimitCantBeZero();
 
+/// @notice Insufficient minimum ETH balacne for request tokens in wallet
+/// @param available available ETH balance in wallet
+/// @param required required amount to request
+error InsufficientEthBalanceOfWallet(uint256 available, uint256 required);
+
 /// @notice Insufficient balance for transfer in faucet
 /// @param available available balance in faucet
 /// @param required required amount to transfer
@@ -84,6 +89,12 @@ contract Faucet is Ownable {
     /// @notice Requests a specific token from the faucet
     /// @param _token The token to request
     function requestToken(IERC20 _token) public returns (bool) {
+        uint256 minEthBalance = 0.1 ether;
+
+        require(
+            msg.sender.balance >= minEthBalance,
+            InsufficientEthBalanceOfWallet(msg.sender.balance, minEthBalance)
+        );
         require(tokenAmounts[_token] != 0, UnsupportedToken());
         require(
             _token.balanceOf(address(this)) >= tokenAmounts[_token],
