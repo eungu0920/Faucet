@@ -43,25 +43,9 @@ contract Faucet is Ownable {
         timeLimit = _timeLimit;
     }
 
-    /// @notice Requests a specific token from the faucet
-    /// @param _token The token to request
-    function requestToken(IERC20 _token) public returns (bool) {
-        require(tokenAmounts[_token] != 0, UnsupportedToken());
-        require(
-            _token.balanceOf(address(this)) >= tokenAmounts[_token],
-            InsufficientBalanceInFaucet(_token.balanceOf(address(this)), tokenAmounts[_token])
-        );
-        require(
-            block.timestamp >= lastTokenRequestTime[msg.sender][_token] + timeLimit,
-            TimeLimitHasNotPassed(block.timestamp, lastTokenRequestTime[msg.sender][_token])
-        );
-
-        lastTokenRequestTime[msg.sender][_token] = block.timestamp;
-        _token.safeTransfer(msg.sender, tokenAmounts[_token]);
-
-        emit WithdrawalRequest(msg.sender, _token, tokenAmounts[_token]);
-
-        return true;
+    /// @notice Fallback function to handle Ether deposits
+    receive() external payable {
+        revert EtherDepositsNotAllowed();
     }
 
     /// @notice Requests multiple tokens from the faucet
@@ -97,8 +81,24 @@ contract Faucet is Ownable {
         _token.safeTransfer(owner(), balance);
     }
 
-    /// @notice Fallback function to handle Ether deposits
-    receive() external payable {
-        revert EtherDepositsNotAllowed();
+    /// @notice Requests a specific token from the faucet
+    /// @param _token The token to request
+    function requestToken(IERC20 _token) public returns (bool) {
+        require(tokenAmounts[_token] != 0, UnsupportedToken());
+        require(
+            _token.balanceOf(address(this)) >= tokenAmounts[_token],
+            InsufficientBalanceInFaucet(_token.balanceOf(address(this)), tokenAmounts[_token])
+        );
+        require(
+            block.timestamp >= lastTokenRequestTime[msg.sender][_token] + timeLimit,
+            TimeLimitHasNotPassed(block.timestamp, lastTokenRequestTime[msg.sender][_token])
+        );
+
+        lastTokenRequestTime[msg.sender][_token] = block.timestamp;
+        _token.safeTransfer(msg.sender, tokenAmounts[_token]);
+
+        emit WithdrawalRequest(msg.sender, _token, tokenAmounts[_token]);
+
+        return true;
     }
 }
