@@ -45,7 +45,7 @@ contract Faucet is Ownable {
 
     /// @notice Requests a specific token from the faucet
     /// @param _token The token to request
-    function requestToken(IERC20 _token) external returns (bool) {
+    function requestToken(IERC20 _token) public returns (bool) {
         require(tokenAmounts[_token] != 0, UnsupportedToken());
         require(
             _token.balanceOf(address(this)) >= tokenAmounts[_token],
@@ -60,6 +60,16 @@ contract Faucet is Ownable {
         _token.safeTransfer(msg.sender, tokenAmounts[_token]);
 
         emit WithdrawalRequest(msg.sender, _token, tokenAmounts[_token]);
+
+        return true;
+    }
+
+    /// @notice Requests multiple tokens from the faucet
+    /// @param _tokens The tokens to request
+    function requestMultipleTokens(IERC20[] calldata _tokens) external returns (bool) {
+        for (uint256 i = 0; i < _tokens.length; i++) {
+            requestToken(_tokens[i]);
+        }
 
         return true;
     }
