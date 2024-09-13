@@ -98,6 +98,8 @@ describe("Faucet", function () {
         it("Should request rigth amount token", async function () {
             const { faucet, otherAccount, tonAmount, amount, ton, tos, usdc, usdt } = await loadFixture(deployFaucetFixture);
             
+
+            
             await faucet.connect(otherAccount).requestToken(ton.target);
             expect(await ton.balanceOf(otherAccount.address)).to.equal(tonAmount);
 
