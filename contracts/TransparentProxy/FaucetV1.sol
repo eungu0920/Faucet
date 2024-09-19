@@ -40,7 +40,7 @@ error EtherDepositsNotAllowed();
  * @author Peter Choi
  * @notice This contract allows users to request tokens with a time limit
  */
-contract Faucet is Initializable, OwnableUpgradeable {
+contract FaucetV1 is Initializable, OwnableUpgradeable {
     using SafeERC20 for IERC20;
     uint256 public timeLimit;
 

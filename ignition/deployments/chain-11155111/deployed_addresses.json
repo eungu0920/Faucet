@@ -1,0 +1,6 @@
+{
+  "ProxyModule#FaucetV1": "0x92DaC9918C7740B94746039CFa693926533DBB67",
+  "ProxyModule#TransparentUpgradeableProxy": "0x96BcB3a2123DC87b024087E9E28975f54A667deb",
+  "ProxyModule#ProxyAdmin": "0xc22D447fdC559a13249a2e1f5DDcF4783c5E92db",
+  "FaucetModule#FaucetV1": "0x96BcB3a2123DC87b024087E9E28975f54A667deb"
+}
