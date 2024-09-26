@@ -1,5 +1,7 @@
 require("@nomicfoundation/hardhat-toolbox");
 
+require("@openzeppelin/hardhat-upgrades");
+
 const PRIVATE_KEY = vars.get("PRIVATE_KEY");
 const ETHERSCAN_API_KEY = vars.get("ETHERSCAN_API_KEY");
 const INFURA_API_KEY = vars.get("INFURA_API_KEY");

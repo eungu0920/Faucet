@@ -68,8 +68,8 @@ contract FaucetV1 is Initializable, OwnableUpgradeable {
      * @notice Initialize for proxy contract
      * @param _timeLimit The time limit to request token
      */
-    function initialize(uint256 _timeLimit) public initializer {
-        __Ownable_init(msg.sender);
+    function initialize(uint256 _timeLimit, address _initialOwner) public initializer {
+        __Ownable_init(_initialOwner);
         require (_timeLimit != 0, TimeLimitCantBeZero());
         timeLimit = _timeLimit;
     }

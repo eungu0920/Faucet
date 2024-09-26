@@ -12,9 +12,10 @@ contract FaucetProxyDeployer {
         ProxyAdmin adminInstance = new ProxyAdmin(msg.sender);
         admin = address(adminInstance);
 
-        bytes memory initialize = abi.encodeWithSignature("initialize(uint256)", 86400);
+        bytes memory initialize = abi.encodeWithSignature("initialize(uint256,address)", 86400, msg.sender);
 
         TransparentUpgradeableProxy proxyInstance = new TransparentUpgradeableProxy(_implementation, admin, initialize);
         proxy = address(proxyInstance);
     }
 }
+
