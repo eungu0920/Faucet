@@ -40,8 +40,8 @@ describe("TransparentProxy", function () {
 
         // console.log(owner.address);
 
-        const currentImplAddress = await upgrades.erc1967.getImplementationAddress(proxycontract.target);
-        console.log("currentImplAddress >> ", currentImplAddress);
+        // const currentImplAddress = await upgrades.erc1967.getImplementationAddress(proxycontract.target);
+        // console.log("currentImplAddress >> ", currentImplAddress);
 
 
         // console.log(">>>>>>>> ", proxiedFaucet);

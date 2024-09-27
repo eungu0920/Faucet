@@ -1,5 +1,5 @@
 require("@nomicfoundation/hardhat-toolbox");
-
+require("@nomicfoundation/hardhat-foundry");
 require("@openzeppelin/hardhat-upgrades");
 
 const PRIVATE_KEY = vars.get("PRIVATE_KEY");
