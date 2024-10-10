@@ -80,7 +80,7 @@ describe("Faucet", function () {
             const { faucet } = await loadFixture(deployFaucetFixture);
             const timeLimit = 3600;
 
-            await faucet.setTimeLimit(timeLimit)
+            await faucet.setTimeLimit(timeLimit);
 
             expect(await faucet.timeLimit()).to.equal(timeLimit);
         });
@@ -91,7 +91,7 @@ describe("Faucet", function () {
 
             await expect(faucet.setTimeLimit(zeroTimeLimit))
                 .to.be.revertedWithCustomError(faucet, "TimeLimitCantBeZero");
-        })
+        });
     });
 
     describe("Request Token", function () {
