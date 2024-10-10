@@ -7,8 +7,6 @@ const { expect } = require("chai");
 const { any } = require("hardhat/internal/core/params/argumentTypes");
 const { upgrades } = require("hardhat");
 
-// const { ethers, upgrades } = require('hardhat');
-
 describe("TransparentProxy", function () {
     async function deployFaucetFixture() {
         const ONE_DAY_IN_SECS = 24 * 60 * 60;
@@ -38,35 +36,7 @@ describe("TransparentProxy", function () {
 
         console.log(await proxiedFaucet.timeLimit());
 
-        // console.log(owner.address);
-
-        // const currentImplAddress = await upgrades.erc1967.getImplementationAddress(proxycontract.target);
-        // console.log("currentImplAddress >> ", currentImplAddress);
-
-
-        // console.log(">>>>>>>> ", proxiedFaucet);
-
-        // const faucet = await upgrades.deployProxy(Faucet, [timeLimit], {
-        //     initializer: "initialize",
-        // });
-
-        // await faucet.deployed();
-
-        // console.log(`Implemetation address deployed to ${ await faucet.target }`);
-
-        // const currentImplAddress = await upgrades.erc1967.getImplementationAddress(
-        //     faucet.target
-        // );
-        // console.log("currentImplAddress >> ", currentImplAddress);
-
-        // const currentAdminAddress = await upgrades.erc1967.getAdminAddress(
-        //     faucet.target
-        // );
-
-        // console.log("currentAdminAddress >> ", currentAdminAddress);
-
         return { proxiedFaucet } ;
-
     }
 
     describe("Deployment", function () {
@@ -85,26 +55,4 @@ describe("TransparentProxy", function () {
 
         });
     });
-
-    // describe("Upgrade Contract", function () {
-    //     it("Success upgrade Contract", async function () {
-    //         const { faucet } = await loadFixture(deployFaucetFixture);
-            
-    //         const FaucetV2 = await ethers.getContractFactory("FaucetV2");
-    //         console.log("Upgrading Faucet...");
-    //         await upgrades.upgradeProxy(faucet.target, FaucetV2);
-    //         console.log("faucet Address >> ", faucet.target);
-
-    //         const currentImplAddress = await upgrades.erc1967.getImplementationAddress(
-    //             faucet.target
-    //         );
-    //         console.log("currentImplAddress >> ", currentImplAddress);
-    
-    //         const currentAdminAddress = await upgrades.erc1967.getAdminAddress(
-    //             faucet.target
-    //         );
-    
-    //         console.log("currentAdminAddress >> ", currentAdminAddress);
-    //     })
-    // })
 });
