@@ -9,13 +9,15 @@ const proxyModule = buildModule("ProxyModule", (m) => {
         faucet
     ])
 
+    
+
     /*
     const proxyAdminAddress = m.readEventArgument(
         proxy,
         "AdminChanged",
         "newAdmin"
     );
-
+    
     const proxyAdmin = m.contractAt("ProxyAdmin", proxyAdminAddress);
     */
 
