@@ -19,6 +19,7 @@ The contract is deployed on the Titan Sepolia network at
 
 ### Run `locally`
 
+### Hardhat
 Clone this repository and install hardhat
 ```shell
     git clone https://github.com/eungu0920/Faucet.git
@@ -35,3 +36,5 @@ TransparentProxy tests:
 ```shell
     npx hardhat test test/TransparentProxy.js
 ```
+
+### Foundry
