@@ -31,3 +31,7 @@ Compile the contracts and run the tests:
     npx hardhat test
 ```
 
+TransparentProxy tests:
+```shell
+    npx hardhat test test/TransparentProxy.js
+```
