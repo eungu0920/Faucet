@@ -157,5 +157,14 @@ describe("TransparentProxy", function () {
             await expect(proxiedFaucet.transferOwnership(ethers.ZeroAddress)).to.be.reverted;
         });
     });
+    
+    describe("Contract Upgrade", function () {
+        it("Should", async function () {
+            const { proxiedFaucet } = await loadFixture(deployFaucetFixture);
+
+            console.log("owner >> ", await proxiedFaucet.owner());
+
+        });
+    });
 
 });
