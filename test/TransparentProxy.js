@@ -158,12 +158,4 @@ describe("TransparentProxy", function () {
         });
     });
 
-    describe("Contract Upgrade", function () {
-        it("Should", async function () {
-            const { proxiedFaucet } = await loadFixture(deployFaucetFixture);
-
-            console.log("owner >> ", await proxiedFaucet.owner());
-
-        });
-    });
 });
