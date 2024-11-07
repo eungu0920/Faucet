@@ -78,7 +78,48 @@ contract FaucetV1 is Initializable, OwnableUpgradeable {
     //                  external                 //
     ///////////////////////////////////////////////
 
-    
+    /**
+     * @notice Requests multiple tokens from the faucet
+     * @param _tokens The tokens to request
+     */
+    function requestMultipleTokens(IERC20[] calldata _tokens) external returns (bool) {
+        for (uint256 i = 0; i < _tokens.length; i++) {
+            requestToken(_tokens[i]);
+        }
+
+        return true;
+    }
+
+    /**
+     * @notice Sets the withdrawal amount for a specific token
+     * @param _token The token to set the amount for
+     * @param _amount The new withdrawal amount
+     */
+    function setTokenAmount(IERC20 _token, uint256 _amount) external onlyOwner {
+        tokenAmounts[_token] = _amount;
+    }
+
+    /**
+     * @notice Sets the time limit between requests
+     * @param _timeLimit The new time limit
+     */
+    function setTimeLimit(uint256 _timeLimit) external onlyOwner {
+        require(_timeLimit != 0, TimeLimitCantBeZero());
+        timeLimit = _timeLimit;
+    }
+
+    /**
+     * @notice Withdraws token from faucet
+     * @param _token The token to withdraw
+     */
+    function withdrawToken(IERC20 _token) external onlyOwner {
+        uint256 balance = _token.balanceOf(address(this));
+        
+        require(balance > 0, InsufficientBalanceInFaucet(balance, 1));
+
+        _token.safeTransfer(owner(), balance);
+    }
+
     ///////////////////////////////////////////////
     //                   public                  //
     ///////////////////////////////////////////////
