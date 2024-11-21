@@ -46,6 +46,5 @@ contract TransparentProxyFacuetTest is Test {
         faucet.setTimeLimit(3600);
         assertEq(faucet.timeLimit(), 3600);
     }
-    
 
 }
